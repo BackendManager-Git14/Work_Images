@@ -41,18 +41,23 @@ namespace Work_Images.Controllers
         public ActionResult Add(data model)
         {
             string filename = Path.GetFileNameWithoutExtension(model.imgfile.FileName);
+
             /*above statement will store the image name in the string called file name 
               by using system.io class method called "Path" see the txt doc*/
-            string extension = Path.GetExtension(model.imgfile.FileName);
-            /*to store the extension of the image file in string ex: jpg , png , jpeg etc*/
-            filename = filename + DateTime.Now.ToString("mmddyyyyss") + extension;
-            // filename would be : image07/11/2024/35.jpeg
-            model.image_path = "~/Visual/" + filename;
-            filename = Path.Combine(Server.MapPath("~/Visual/"), filename);
-            model.imgfile.SaveAs(filename);
 
-            HttpPostedFileBase tempfile = model.imgfile;
-            TempData["filebase"] = tempfile;
+            string extension = Path.GetExtension(model.imgfile.FileName);
+
+            /*to store the extension of the image file in string ex: jpg , png , jpeg etc*/
+
+            filename = filename + DateTime.Now.ToString("dd-MM-yyyy-ss");
+            string valid_filename = filename.Replace(" ", "_");
+            valid_filename = valid_filename + extension;
+
+            // filename would be : image07/11/2024/35.jpeg
+
+            model.image_path = "~/Visual/" + valid_filename;
+            valid_filename = Path.Combine(Server.MapPath("~/Visual/"), valid_filename);
+            model.imgfile.SaveAs(valid_filename);
 
             con.Open();
             string qry = "insert into user_data values (@u_name,@b_date,@image_path,@email_add)";
@@ -79,7 +84,7 @@ namespace Work_Images.Controllers
             cmd.Parameters.Add(new SqlParameter("@id", id));
             SqlDataReader dr = cmd.ExecuteReader();
 
-            HttpPostedFileBase accessedfile = TempData["filebase"] as HttpPostedFileBase;
+          
             dr.Read();
             data rec = new data
             {
@@ -87,7 +92,6 @@ namespace Work_Images.Controllers
                 u_name = dr["u_name"].ToString(),
                 b_date = dr["b_date"].ToString(),
                 image_path = dr["image_path"].ToString(),
-                imgfile = accessedfile,
                 email_add = dr["email_add"].ToString()
             };
 

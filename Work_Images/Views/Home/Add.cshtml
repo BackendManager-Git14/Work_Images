@@ -1,0 +1,46 @@
+﻿@model Work_Images.Models.data
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+<form action="~/Home/Add" id="sbmt" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>
+                <b> @Html.DisplayNameFor(m => m.u_name) </b>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.u_name, htmlAttributes: new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b> @Html.DisplayNameFor(m => m.b_date) </b>
+            </td>
+            <td>
+                <input type="date" class="form-control" name="b_date" id="b_date" />
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b> @Html.DisplayNameFor(m => m.email_add) </b>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.email_add,htmlAttributes: new {@class="@form-control"})
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b> @Html.DisplayNameFor(m => m.imgfile) </b>
+            </td>
+            <td>
+                <input type="file" class="form-control" name="imgfile" />
+            </td>
+        </tr>
+    </table>
+    <button type="submit" id="sbmt" class="btn btn-outline-dark"> Send </button>
+</form>
